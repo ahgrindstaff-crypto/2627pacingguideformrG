@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strategic Implementation Manual: CS Curriculum Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0f1e35;
+      --navy-mid: #1a3050;
+      --navy-light: #243e60;
+      --slate: #3d5166;
+      --slate-light: #6b7f92;
+      --border-color: #d0d8ea;
+      --bg-main: #f4f6fb;
+      --bg-card: #ffffff;
+      
+      /* Color Tracks for Pathways & Frameworks */
+      --amber: #f5a623;
+      --amber-light: #fdf0d5;
+      --teal: #1d9e75;
+      --teal-light: #e1f5ee;
+      --purple: #6b5fd4;
+      --purple-light: #eeedfe;
+      --coral: #d85a30;
+      --coral-light: #faece7;
+      --blue: #2a6fba;
+      --blue-light: #e6f1fb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--navy);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      color: #ffffff;
+      padding: 2.5rem 2rem;
+      border-bottom: 4px solid var(--purple);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      color: var(--border-color);
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    /* Navigation Tab System */
+    nav {
+      background-color: var(--navy-mid);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      overflow-x: auto;
+      white-space: nowrap;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--slate-light);
+      padding: 1rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .nav-btn:hover {
+      color: #ffffff;
+      background-color: rgba(255,255,255,0.05);
+    }
+
+    .nav-btn.active {
+      color: #ffffff;
+      background-color: var(--navy-light);
+      box-shadow: inset 0 -3px 0 var(--purple);
+    }
+
+    /* Main Grid Layout */
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Design Framework Cards */
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px rgba(15, 30, 53, 0.02);
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: var(--slate);
+      margin-bottom: 1rem;
+    }
+
+    /* Highlighting Core Technical Vocabulary */
+    .tech-term {
+      font-family: 'DM Mono', monospace;
+      background-color: var(--purple-light);
+      color: var(--purple);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .pillar-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    .tag-decomp { background-color: var(--blue-light); color: var(--blue); }
+    .tag-pattern { background-color: var(--teal-light); color: var(--teal); }
+    .tag-abstract { background-color: var(--purple-light); color: var(--purple); }
+    .tag-algo { background-color: var(--coral-light); color: var(--coral); }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background-color: var(--navy-light);
+      color: #ffffff;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-weight: 500;
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--slate);
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f8fafd;
+    }
+
+    /* Formats for Special Display Logs */
+    .diary-step {
+      border-left: 3px solid var(--border-color);
+      padding-left: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .diary-step.predict { border-left-color: var(--blue); }
+    .diary-step.run { border-left-color: var(--amber); }
+    .diary-step.investigate { border-left-color: var(--coral); }
+    .diary-step.modify { border-left-color: var(--purple); }
+    .diary-step.make { border-left-color: var(--teal); }
+
+    .diary-label {
+      font-family: 'DM Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .predict .diary-label { color: var(--blue); }
+    .run .diary-label { color: var(--amber); }
+    .investigate .diary-label { color: var(--coral); }
+    .modify .diary-label { color: var(--purple); }
+    .make .diary-label { color: var(--teal); }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .split-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .badge-pathway {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 700;
+      color: white;
+      margin-left: auto;
+    }
+    .bg-coding { background-color: var(--purple); }
+    .bg-media { background-color: var(--coral); }
+
+    footer {
+      background-color: var(--navy);
+      color: var(--slate-light);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: 4rem;
+    }
+
+    /* Framework Interactive Verification Component */
+    .checklist-box {
+      background-color: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--slate);
+      margin-bottom: 0.5rem;
+    }
+
+    .checklist-item input {
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <h1>Strategic Implementation Manual</h1>
+      <p>Transitioning from Technical Execution to Analytical Justification in Middle School Computer Science</p>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-container">
+      <button class="nav-btn active" onclick="showTab(0)">1. Executive Mandate</button>
+      <button class="nav-btn" onclick="showTab(1)">2. PRIMM & PRO Cycles</button>
+      <button class="nav-btn" onclick="showTab(2)">3. 6th Grade Foundations</button>
+      <button class="nav-btn" onclick="showTab(3)">4. 7th Grade Optimization</button>
+      <button class="nav-btn" onclick="showTab(4)">5. 8th Grade Coding</button>
+      <button class="nav-btn" onclick="showTab(5)">6. 8th Grade Media Design</button>
+      <button class="nav-btn" onclick="showTab(6)">7. Compliance & Standards</button>
+    </div>
+  </nav>
+
+  <main>
+
+    <section id="tab-0" class="section active">
+      <div class="card">
+        <h2>1. Executive Mandate: The Shift from "Doing" to "Justifying"</h2>
+        <p>The objective of this curriculum architecture is a rigorous pivot from the mere production of functional code to the analytical justification of technical artifacts. In an evidence-based STEM pedagogy, successful execution—a robot completing a course or a script running without syntax errors—is no longer the terminal goal. It is merely the baseline.</p>
+        <p>Mastery is evidenced through documentation that proves a student understands the "why" behind the "how." We are moving students away from "Guess-and-Check" habits and toward an engineering mindset where documentation serves as the primary artifact of learning. This shift requires students to bridge the cognitive gap between <span class="tech-term">Perfect Logic Environments</span> and the <span class="tech-term">Messy Physical World</span> through quantitative evidence and systematic troubleshooting.</p>
+      </div>
+
+      <div class="card">
+        <h2>The Philosophical Shift</h2>
+        <p>Traditional computer science education often rewards the "finished product," regardless of the haphazard iterations used to achieve it. This manual mandates a transition to <strong>Evidence-Based Troubleshooting</strong>. Every technical output must be paired with analytical documentation that justifies how the student navigated real-world variables, such as surface friction or sensor drift. Technical artifacts without accompanying justification are considered incomplete and do not meet the threshold for programmatic mastery.</p>
+      </div>
+
+      <div class="card">
+        <h2>Core Methodologies: The 4 Pillars of Computational Thinking</h2>
+        <p>The strategic transition is anchored in the four pillars, mapped here against specific justification requirements:</p>
+        
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%">Pillar</th>
+              <th>Practical Application in Justification Tasks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="pillar-tag tag-decomp">Decomposition</span></td>
+              <td>Breaking complex infrastructure challenges (e.g., the Lakewood Bottleneck) into discrete, observable data points.</td>
+            </tr>
+            <tr>
+              <td><span class="pillar-tag tag-pattern">Pattern Recognition</span></td>
+              <td>Identifying recurring physical deficits, such as the "Carpet Tax" or sensor spikes in graphical telemetry.</td>
+            </tr>
+            <tr>
+              <td><span class="pillar-tag tag-abstract">Abstraction</span></td>
+              <td>Modeling data payloads across a Multimodal Technical Ecology (iPad to Mac to Chromebook) and identifying system lag.</td>
+            </tr>
+            <tr>
+              <td><span class="pillar-tag tag-algo">Algorithmic Thinking</span></td>
+              <td>Creating modular, reusable procedures utilizing the Applied Geometric Framework (Exterior Angle Rule: 360° ÷ number of sides).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab-1" class="section">
+      <div class="card">
+        <h2>2. The PRIMM Framework and The "PRO" Cycle</h2>
+        <p>To scaffold student metacognition, we implement the <span class="tech-term">PRIMM</span> (Predict, Run, Investigate, Modify, Make) framework. This structure is non-negotiable for moving students from passive code-copying to active systemic analysis.</p>
+      </div>
+
+      <div class="card">
+        <h2>Predictive Hypotheses: The PRO Cycle</h2>
+        <p>Before a single line of code is executed, students must engage in the <strong>Predict-Run-Observe (PRO)</strong> cycle. Students must write behavioral hypotheses regarding how their logic will translate into physical movement. This forces students to account for "Physical Deficits"—the reality that battery decay, gear slip, and surface momentum often counteract perfect code.</p>
+      </div>
+
+      <div class="card">
+        <h2>The Documentation Mandate: The 5-Step Debug Diary</h2>
+        <p>The Debug Diary is the standardized instrument of this curriculum. For every project, students must complete a five-step sheet derived from PRIMM:</p>
+
+        <div class="diary-step predict">
+          <div class="diary-label">1. Predict</div>
+          <p>Document the expected behavior of the code and hardware.</p>
+        </div>
+        <div class="diary-step run">
+          <div class="diary-label">2. Run</div>
+          <p>Execute the code and capture the actual outcome.</p>
+        </div>
+        <div class="diary-step investigate">
+          <div class="diary-label">3. Investigate</div>
+          <p>Identify the discrepancy. Students must explicitly separate <span class="tech-term">Logical/Syntax Failures</span> (calculation errors, broken references) from <span class="tech-term">Physical/Environmental Failures</span> (accelerometer drift, IR communication interference, or battery depletion).</p>
+        </div>
+        <div class="diary-step modify">
+          <div class="diary-label">4. Modify</div>
+          <p>Detail the precise mathematical or structural tweak applied (e.g., adjusting speed to compensate for "Carpet Tax").</p>
+        </div>
+        <div class="diary-step make">
+          <div class="diary-label">5. Make</div>
+          <p>Finalize the artifact and confirm the resolution.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-2" class="section">
+      <div class="card">
+        <h2>3. Vertical Progression: 6th Grade – Foundations and Exploratory Play</h2>
+        <p>The 6th-grade "Exploratory Level" focuses on demystifying systems. Students transition from free-drive play to understanding how block architecture controls physical hardware.</p>
+      </div>
+
+      <div class="card">
+        <h2>Key Projects and Justifications</h2>
+        <ul>
+          <li style="margin-bottom: 1rem;"><strong>Sphero Driver’s Test (Exploratory):</strong> Moving from manual remote-control to basic macro-blocks. Students collect qualitative data, documenting exactly when and where a robot fails to execute a turn accurately.</li>
+          <li style="margin-bottom: 1rem;"><strong>Multimodal Technical Safari:</strong> Students visualize the "Technical Ecology" by mapping a file payload's path—capturing an image on an iPad, AirDropping it to a Mac, and logging the transfer on a Chromebook.</li>
+          <li style="margin-bottom: 1rem;"><strong>Lakewood Bottleneck (Level 1):</strong> The first stage of our tri-level spiral. Students use stopwatches to log walking times in a single hallway, calculating a basic class average in Google Sheets to recognize human patterns.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Assessment Artifacts</h2>
+        <div class="checklist-box">
+          <div class="checklist-item"><input type="checkbox"> <span><strong>3-Entry Debug Diary:</strong> Basic logging of physical collisions or turn errors.</span></div>
+          <div class="checklist-item"><input type="checkbox"> <span><strong>Google Site Portfolio:</strong> Setup of the three-year digital record, featuring screenshots of block architecture and the "Data Path Map."</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-3" class="section">
+      <div class="card">
+        <h2>4. Vertical Progression: 7th Grade – Innovation and System Optimization</h2>
+        <p>In 7th grade, the curriculum shifts toward Quantitative Precision and modularity.</p>
+      </div>
+
+      <div class="card">
+        <h2>The "Carpet Tax" Audit and Precise Measurement</h2>
+        <p>Students move from "duration-based" travel (seconds) to precise measurement in centimeters (cm). They conduct audits to calculate friction modifiers—known as the <span class="tech-term">Carpet Tax</span>—on tile vs. deep carpet. This requires computing programmatic velocity corrections to ensure 100cm of travel in code equals 100cm of physical movement.</p>
+      </div>
+
+      <div class="card">
+        <h2>Applied Geometry and Procedural Modularity</h2>
+        <p>Students implement the Exterior Angle Rule (360° ÷ number of sides). Using absolute headings, they create modular procedures (functions) where the number of sides is a dynamic variable, allowing one script to generate any regular polygon <span class="tech-term">Standard: MS-ALG-PS-02</span>.</p>
+      </div>
+
+      <div class="card">
+        <h2>Engineering Analysis: Lakewood Bottleneck (Level 2)</h2>
+        <p>Students simulate hallway velocities using Google Sheets to find the "breaking point" of the school schedule. This stage introduces <strong>Data Cleansing</strong>: students must identify and purge "sprint outliers" from their datasets to improve simulation accuracy.</p>
+      </div>
+
+      <div class="card">
+        <h2>Technical Written Analysis Requirement</h2>
+        <p>A mandatory artifact justifying how software commands for internal motor currents are altered by hardware constraints (friction, momentum, and battery charge).</p>
+      </div>
+    </section>
+
+    <section id="tab-4" class="section">
+      <div class="card">
+        <h2>5. 8th Grade Pathway A: Advanced Automation (Coding) <span class="badge-pathway bg-coding">Coding Track</span></h2>
+        <p>This pathway transitions students to text-based syntax (JavaScript, Python, and Swift via Swift Playgrounds) to manage complex, asynchronous system errors.</p>
+      </div>
+
+      <div class="card">
+        <h2>Advanced Analytical Artifacts</h2>
+        <ul>
+          <li style="margin-bottom: 1rem;"><strong>The Live Logging Ecosystem:</strong> Students build a "Network Data Dashboard" tracking real-time packet drops and sensor streams (accelerometer, light sensors). They write code exceptions to handle network downtime.</li>
+          <li style="margin-bottom: 1rem;"><strong>Lakewood Bottleneck (Level 3):</strong> Students write scripts that auto-generate <span class="tech-term">.csv</span> metrics from their simulations, exporting data directly into Google Sheets analytics endpoints for automated processing.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>The Justification Layer</h2>
+        <p>Justification moves to a professional tier, requiring a <strong>Software Licensing Manifest</strong> and <strong>Attribution Registry</strong>. Students must distinguish between "learning from others' code" and "plagiarism" during refactoring projects <span class="tech-term">Standard: MS-PRO-PD-14</span>.</p>
+      </div>
+    </section>
+
+    <section id="tab-5" class="section">
+      <div class="card">
+        <h2>6. 8th Grade Pathway B: Human-Centered Systems (DMD) <span class="badge-pathway bg-media">Digital Media Design Track</span></h2>
+        <p>This pathway analyzes the human element through UI/UX and the Universal Accessibility Framework.</p>
+      </div>
+
+      <div class="card">
+        <h2>Accessibility Engineering</h2>
+        <p>Students must produce a <strong>User Accessibility Audit Log</strong> proving compliance with:</p>
+        <ul>
+          <li><strong>WCAG Compliance:</strong> Cross-demographic usability.</li>
+          <li><strong>Color Contrast Ratios:</strong> Optimization for low-vision and color-blind users.</li>
+          <li><strong>Font Legibility Indexes:</strong> Semantic readability across different display DPIs.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Data-Driven Visual Architecture</h2>
+        <p>Students utilize the Lakewood Bottleneck simulation data (Level 3) to create Information Architectures. They transform raw .csv logs into density heatmaps and infographics that maintain metric integrity while improving human legibility <span class="tech-term">Standard: MS-ALG-IM-09</span>.</p>
+      </div>
+
+      <div class="card">
+        <h2>The Constructible Product</h2>
+        <p>Students design 3D templates (cereal boxes, soup cans) using the "Constructible Product Framework." This digital-to-physical translation requires a full Attribution Registry for all used digital assets.</p>
+      </div>
+    </section>
+
+    <section id="tab-6" class="section">
+      <div class="card">
+        <h2>7. Programmatic Compliance and Digital Portfolios</h2>
+        <p>The three-year Google Site Portfolio is the permanent record of student growth. It is not a gallery; it is a <strong>Technical Evidence Log</strong>. Assessment is contingent upon side-by-side evidence of code architecture vs. physical sensor tracks showing "Reality vs. Prediction."</p>
+      </div>
+
+      <div class="card">
+        <h2>Kansas Standards Alignment (2026)</h2>
+        <p>This manual is mapped to the 2026 Kansas Core Concept Areas using specific alphanumeric identifiers:</p>
+        
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 30%">Core Concept Area</th>
+              <th style="width: 20%">Standard ID</th>
+              <th>Manual Activity & Implementation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Computing Systems (CS)</strong></td>
+              <td><span class="tech-term">MS-PRO-TR-19</span></td>
+              <td>Systematic testing/refining of "Carpet Tax" and sensor drift.</td>
+            </tr>
+            <tr>
+              <td><strong>Networks & Internet (NI)</strong></td>
+              <td><span class="tech-term">MS-PRO-PD-13</span></td>
+              <td>Use of reference documentation in Multimodal Tech Safari.</td>
+            </tr>
+            <tr>
+              <td><strong>Data and Analysis (DA)</strong></td>
+              <td><span class="tech-term">MS-ALG-ML-07</span></td>
+              <td>Lakewood Bottleneck data cleansing/outlier mitigation.</td>
+            </tr>
+            <tr>
+              <td><strong>Algorithms & Programming</strong></td>
+              <td><span class="tech-term">MS-ALG-PS-01</span></td>
+              <td>Variable manipulation in Geometric Procedures (Exterior Angle Rule).</td>
+            </tr>
+            <tr>
+              <td><strong>Impacts of Computing (IC)</strong></td>
+              <td><span class="tech-term">MS-ALG-IM-09</span></td>
+              <td>User Accessibility Audit Logs for Digital Media Design.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Final Implementation Summary for Educators</h2>
+        <div class="checklist-box">
+          <div class="checklist-item"><input type="checkbox" checked disabled> <span><strong>Mandatory Justification:</strong> Every technical artifact must have a paired analytical document (Debug Diary or Audit Log).</span></div>
+          <div class="checklist-item"><input type="checkbox" checked disabled> <span><strong>Tri-Level Lakewood Spiral:</strong> Students must progress from manual stopwatches (6th) to spreadsheets (7th) to scripted .csv automation (8th).</span></div>
+          <div class="checklist-item"><input type="checkbox" checked disabled> <span><strong>Quantitative Precision:</strong> Shift from duration-based travel to precise centimeter measurement and friction-coefficient calculation.</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Middle School Computer Science Standards Implementation & Deployment Manual
+  </footer>
+
+  <script>
+    function showTab(tabIndex) {
+      // Hide all tabs
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => section.classList.remove('active'));
+      
+      // Deactivate all navigation buttons
+      const buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach(button => button.classList.remove('active'));
+      
+      // Activate selected tab and navigation button
+      document.getElementById(`tab-${tabIndex}`).classList.add('active');
+      buttons[tabIndex].classList.add('active');
+
+      // Scroll view smoothly back to top of main context container
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
